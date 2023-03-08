@@ -22,7 +22,7 @@ class CountryDetector implements CountryDetectorInterface {
     $prefix = $this->getUrlPrefix($url);
 
     // @todo: Change this to the default country of the site.
-    $country = 'es'; //$this->configFactory->get('country_language_url.config')->get('default_country');
+    $country = $this->configFactory->get('country_language_url.config')->get('default_country');
     if ($this->isCountryInString($prefix)) {
       // Si entra aqui el path contiene 'es-es'
       $country = substr($prefix, 0, 2);

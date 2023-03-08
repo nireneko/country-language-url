@@ -17,6 +17,10 @@ class CountryDetectorTest extends KernelTestBase {
   protected function setUp(): void {
     parent::setUp();
     $this->countryDetector = $this->container->get('country_language_url.country_detector');
+
+    $this->config('country_language_url.config')
+      ->set('default_country', 'it')
+      ->save();
   }
 
   public function testIsCountryInPath() {
@@ -39,7 +43,7 @@ class CountryDetectorTest extends KernelTestBase {
   public function testGetCountryFromUrl() {
     $this->assertEquals('fr', $this->countryDetector->getCountryFromUrl('/fr-es/pepito'));
     $this->assertEquals('fr', $this->countryDetector->getCountryFromUrl('fr-es/pepito'));
-    $this->assertEquals('es', $this->countryDetector->getCountryFromUrl('es/pepito'));
+    $this->assertEquals('it', $this->countryDetector->getCountryFromUrl('es/pepito'));
   }
 
   public function testGetLanguageFromUrl() {
