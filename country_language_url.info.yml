@@ -1,0 +1,11 @@
+name: Country Language Url
+type: module
+description: 'Cambiar la descripcion.'
+package: Custom
+core_version_requirement: ^9.4 || ^10
+configure: route.of.config
+version: '1.0.0'
+dependencies:
+  - 'drupal:language'
+
+
