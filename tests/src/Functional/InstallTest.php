@@ -10,7 +10,7 @@ use Drupal\Tests\BrowserTestBase;
  *
  * @group country_language_url
  */
-class ExampleTest extends BrowserTestBase {
+class InstallTest extends BrowserTestBase {
 
   /**
    * {@inheritdoc}

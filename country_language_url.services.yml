@@ -1,4 +1,3 @@
 services:
   country_language_url.country_detector:
     class: Drupal\country_language_url\Service\CountryDetector
-    arguments: ['@config.factory']

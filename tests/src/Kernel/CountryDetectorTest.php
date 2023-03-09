@@ -5,8 +5,16 @@ namespace Drupal\Tests\country_language_url\Kernel;
 use Drupal\country_language_url\Service\CountryDetectorInterface;
 use Drupal\KernelTests\KernelTestBase;
 
+/**
+ * Test class for the service country_language_url.country_detector.
+ */
 class CountryDetectorTest extends KernelTestBase {
 
+  /**
+   * The service to test.
+   *
+   * @var \Drupal\country_language_url\Service\CountryDetectorInterface
+   */
   private CountryDetectorInterface $countryDetector;
 
   /**
@@ -43,13 +51,19 @@ class CountryDetectorTest extends KernelTestBase {
   public function testGetCountryFromUrl() {
     $this->assertEquals('fr', $this->countryDetector->getCountryFromUrl('/fr-es/pepito'));
     $this->assertEquals('fr', $this->countryDetector->getCountryFromUrl('fr-es/pepito'));
-    $this->assertEquals('it', $this->countryDetector->getCountryFromUrl('es/pepito'));
+    // With no country in the url should return the default language, and is 'it'.
+    $this->assertNull($this->countryDetector->getCountryFromUrl('es/pepito'));
+    $this->assertNull($this->countryDetector->getCountryFromUrl('/pepito'));
+    $this->assertNull($this->countryDetector->getCountryFromUrl('pepito'));
   }
 
   public function testGetLanguageFromUrl() {
     $this->assertEquals('de', $this->countryDetector->getLanguageFromUrl('/es-de/pepito'));
     $this->assertEquals('de', $this->countryDetector->getLanguageFromUrl('es-de/pepito'));
     $this->assertEquals('de', $this->countryDetector->getLanguageFromUrl('de/pepito'));
+    // Default language is 'en';
+    $this->assertNull($this->countryDetector->getLanguageFromUrl('/pepito'));
+    $this->assertNull($this->countryDetector->getLanguageFromUrl('pepito'));
   }
 
 }

@@ -3,28 +3,21 @@
 namespace Drupal\country_language_url\Service;
 
 
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
-
+/**
+ * Class to get the country and language from Url.
+ */
 class CountryDetector implements CountryDetectorInterface {
-
-  /**
-   *
-   */
-  public function __construct(
-    protected ConfigFactoryInterface $configFactory
-  ) {}
 
   /**
    * {@inheritdoc}
    */
-  public function getCountryFromUrl(string $url): string {
+  public function getCountryFromUrl(string $url): string|null {
     $prefix = $this->getUrlPrefix($url);
 
-    // @todo: Change this to the default country of the site.
-    $country = $this->configFactory->get('country_language_url.config')->get('default_country');
+    $country = null;
+
     if ($this->isCountryInString($prefix)) {
-      // Si entra aqui el path contiene 'es-es'
+      // if enters here the prefix has this format 'es-es'
       $country = substr($prefix, 0, 2);
     }
 
@@ -34,19 +27,18 @@ class CountryDetector implements CountryDetectorInterface {
   /**
    * {@inheritdoc}
    */
-  public function getLanguageFromUrl(string $url): string {
+  public function getLanguageFromUrl(string $url): string|null {
     $prefix = $this->getUrlPrefix($url);
-    // @todo: Change this to the default langauge of the site.
-    $language = 'es';
+
+    $language = null;
+
     if ($this->isCountryInString($prefix)) {
-      // @todo: translete this.
-      // Si entra aqui el path contiene 'es-es'
+      // if enters here the prefix has this format 'es-es'
       $language = substr($prefix, 3, 2);
     }
 
     if ($this->isOnlyLanguageInString($prefix)) {
-      // @todo: translete this.
-      // Si entra aqui el path contiene 'es'
+      // if enters here the prefix has this format 'es'
       $language = $prefix;
     }
 
@@ -57,20 +49,24 @@ class CountryDetector implements CountryDetectorInterface {
    * {@inheritdoc}
    */
   public function isCountryInString(string $string): bool {
-   return preg_match( '/^[a-z]{2}-[a-z]{2}$/',$string);
+   return preg_match( self::COUNTRY_LANGUAGE_PATTERN, $string);
   }
 
   /**
    * {@inheritdoc}
    */
   public function isOnlyLanguageInString(string $string): bool {
-    return preg_match( '/^[a-z]{2}$/',$string);
+    return preg_match( self::LANGUAGE_PATTERN, $string);
   }
 
   /**
+   * Get the prefix from the url.
+   *
    * @param string $url
+   *   The url from get the prefix.
    *
    * @return string
+   *   The prefix of the url.
    */
   private function getUrlPrefix(string $url): string {
     $request_path = urldecode(trim($url, '/'));
