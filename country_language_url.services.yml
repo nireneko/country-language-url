@@ -1,3 +1,6 @@
 services:
   country_language_url.country_detector:
     class: Drupal\country_language_url\Service\CountryDetector
+  country_language_url.country:
+    class: Drupal\country_language_url\Service\Country
+    arguments: ['@config.factory', '@language_manager', '@request_stack','@country_language_url.country_detector']
