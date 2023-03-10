@@ -40,10 +40,6 @@ class Country implements CountryInterface {
 
   public function getCurrentCountry(): string {
 
-    if (isset($this->country)) {
-      return $this->country;
-    }
-
     $this->country = $this->getCountryFromRequest($this->requestStack->getCurrentRequest());
 
     // @todo: check if the given country is in a list.
@@ -56,10 +52,6 @@ class Country implements CountryInterface {
   }
 
   public function getCurrentLanguage(): string {
-
-    if (isset($this->language)) {
-      return $this->language;
-    }
 
     $language_list = $this->languageManager->getLanguages();
 
@@ -79,6 +71,10 @@ class Country implements CountryInterface {
 
   public function getLanguageFromRequest(Request $request): string|null {
     return $this->countryDetector->getLanguageFromUrl($request->getPathInfo());
+  }
+
+  public function checkIfCountryAllowed(string $countryCode): bool {
+    return true;
   }
 
 }

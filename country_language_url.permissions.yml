@@ -1,0 +1,3 @@
+country language url admin:
+  title: 'Administer configuration'
+  restrict access: true

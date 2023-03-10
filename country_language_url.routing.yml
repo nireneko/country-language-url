@@ -1,7 +1,7 @@
 country_language_url.config:
-  path: '/admin/config/system/country_language_url'
+  path: '/admin/config/regional/language/detection/country-language'
   defaults:
     _title: 'Country Language Url'
     _form: 'Drupal\country_language_url\Form\ConfigForm'
   requirements:
-    _permission: 'access content'
+    _permission: 'country language url admin'
