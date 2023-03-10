@@ -2,17 +2,16 @@
 
 namespace Drupal\country_language_url;
 
+use Symfony\Component\HttpFoundation\Request;
+
 /**
  * Interface for country_language_manager plugins.
  */
 interface CountryLanguageManagerInterface {
 
-  /**
-   * Returns the translated plugin label.
-   *
-   * @return string
-   *   The translated title.
-   */
-  public function label();
+  public function getCountryList(): array;
 
+  public function getDefaultCountry(): string;
+
+  public function getCurrentCountry(Request $request): string ;
 }
