@@ -7,7 +7,7 @@ services:
   plugin.manager.country_language_manager:
     class: Drupal\country_language_url\CountryLanguageManagerPluginManager
     parent: default_plugin_manager
-  country_language_url.cache_context:
+  cache_context.country_language_url:
     class: Drupal\country_language_url\Context\CountryLanguageCache
     arguments: [ '@request_stack', '@country_language_url.country' ]
     tags:
