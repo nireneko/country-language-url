@@ -2,8 +2,11 @@
 
 namespace Drupal\country_language_url\Service;
 
+use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\country_language_url\CountryLanguageManagerPluginManager;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -35,17 +38,18 @@ class Country implements CountryInterface {
     protected ConfigFactoryInterface $configFactory,
     protected LanguageManagerInterface $languageManager,
     protected RequestStack $requestStack,
-    protected CountryDetectorInterface $countryDetector
+    protected CountryDetectorInterface $countryDetector,
+    protected CountryLanguageManagerPluginManager $countryLanguageManagerPluginManager
   ) {}
 
   public function getCurrentCountry(): string {
 
     $this->country = $this->getCountryFromRequest($this->requestStack->getCurrentRequest());
 
-    // @todo: check if the given country is in a list.
-    if (!$this->country) {
-      // @todo: move the default country to a plugin.
-      $this->country = $this->configFactory->get('country_language_url.config')->get('default_country');
+    $plugin = $this->getCountryLanguageManagerPlugin();
+
+    if (!$this->country || !$this->checkIfCountryAllowed($this->country)) {
+      $this->country = $plugin->getDefaultCountry();
     }
 
     return $this->country;
@@ -73,8 +77,32 @@ class Country implements CountryInterface {
     return $this->countryDetector->getLanguageFromUrl($request->getPathInfo());
   }
 
+  /**
+   * @todo: Implement this method, must use the country manager plugins.
+   *
+   * @param string $countryCode
+   *
+   * @return bool
+   */
   public function checkIfCountryAllowed(string $countryCode): bool {
+    $plugin = $this->getCountryLanguageManagerPlugin();
+    $country_list = $plugin->getCountryList();
+
+    if (!in_array($countryCode, $country_list)) {
+      return true;
+    }
     return true;
+  }
+
+  /**
+   * @return \Drupal\country_language_url\CountryLanguageManagerInterface
+   *   Return the current plugin to manage the country and language.
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   */
+  private function getCountryLanguageManagerPlugin(): object {
+    $plugin_id = $this->configFactory->get('country_language_url.config')->get('country_language_manager');
+    /** @var \Drupal\country_language_url\CountryLanguageManagerInterface $plugin */
+    return $this->countryLanguageManagerPluginManager->createInstance($plugin_id);
   }
 
 }

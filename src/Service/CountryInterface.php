@@ -17,4 +17,13 @@ interface CountryInterface {
 
   public function getLanguageFromRequest(Request $request): string|null;
 
+  /**
+   * @todo: Implement this method, must use the country manager plugins.
+   *
+   * @param string $countryCode
+   *
+   * @return bool
+   */
+  public function checkIfCountryAllowed(string $countryCode): bool;
+
 }
