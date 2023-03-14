@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
  * Plugin implementation of the country_language_manager.
  *
  * @CountryLanguageManager(
- *   id = "default_country_manager",
- *   label = @Translation("Default country manager."),
+ *   id = "test_country_manager",
+ *   label = @Translation("Test country manager."),
  *   description = @Translation("Default country manager to load countries.")
  * )
  */
-class DefaultCountryManager extends CountryLanguageManagerPluginBase implements ContainerFactoryPluginInterface {
+class TestCountryManager extends CountryLanguageManagerPluginBase implements ContainerFactoryPluginInterface {
 
   protected CountryManagerInterface $countryManager;
 

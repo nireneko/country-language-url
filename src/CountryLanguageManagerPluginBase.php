@@ -3,6 +3,7 @@
 namespace Drupal\country_language_url;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Base class for country_language_manager plugins.
@@ -12,9 +13,20 @@ abstract class CountryLanguageManagerPluginBase extends PluginBase implements Co
   /**
    * {@inheritdoc}
    */
-  public function label() {
-    // Cast the label to a string since it is a TranslatableMarkup object.
-    return (string) $this->pluginDefinition['label'];
+  public function buildForm(array $form, FormStateInterface $form_state) {
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateForm(array &$form, FormStateInterface $form_state) {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
   }
 
 }
