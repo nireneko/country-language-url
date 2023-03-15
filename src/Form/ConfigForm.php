@@ -58,13 +58,6 @@ class ConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
-    /**
-     * @todo fix this!!
-     */
-//    if (!isset($this->countryLanguageManager)) {
-//      $this->initializeServices();
-//    }
-
     $plugins_raw = $this->countryLanguageManager->getDefinitions();
 
     $plugins = [];
@@ -119,13 +112,6 @@ class ConfigForm extends ConfigFormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
 
-    /**
-     * @todo fix this!!
-     */
-//    if (!isset($this->countryLanguageManager)) {
-//      $this->initializeServices();
-//    }
-
     $plugin_id = $form_state->getValue('country_language_manager');
     $plugin = $this->countryLanguageManager->createInstance($plugin_id);
     $plugin->validateForm($form, $form_state);
@@ -136,13 +122,6 @@ class ConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-
-    /**
-     * @todo fix this!!
-     */
-//    if (!isset($this->countryLanguageManager)) {
-//      $this->initializeServices();
-//    }
 
     $plugin_id = $form_state->getValue('country_language_manager');
     $plugin = $this->countryLanguageManager->createInstance($plugin_id);
