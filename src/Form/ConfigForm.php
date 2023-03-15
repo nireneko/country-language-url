@@ -17,7 +17,7 @@ class ConfigForm extends ConfigFormBase {
   /**
    * @var \Drupal\country_language_url\CountryLanguageManagerPluginManager
    */
-  private CountryLanguageManagerPluginManager $countryLanguageManager;
+  protected CountryLanguageManagerPluginManager $countryLanguageManager;
 
   /**
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -61,9 +61,9 @@ class ConfigForm extends ConfigFormBase {
     /**
      * @todo fix this!!
      */
-    if (!isset($this->countryLanguageManager)) {
-      $this->initializeServices();
-    }
+//    if (!isset($this->countryLanguageManager)) {
+//      $this->initializeServices();
+//    }
 
     $plugins_raw = $this->countryLanguageManager->getDefinitions();
 
@@ -122,9 +122,9 @@ class ConfigForm extends ConfigFormBase {
     /**
      * @todo fix this!!
      */
-    if (!isset($this->countryLanguageManager)) {
-      $this->initializeServices();
-    }
+//    if (!isset($this->countryLanguageManager)) {
+//      $this->initializeServices();
+//    }
 
     $plugin_id = $form_state->getValue('country_language_manager');
     $plugin = $this->countryLanguageManager->createInstance($plugin_id);
@@ -140,9 +140,9 @@ class ConfigForm extends ConfigFormBase {
     /**
      * @todo fix this!!
      */
-    if (!isset($this->countryLanguageManager)) {
-      $this->initializeServices();
-    }
+//    if (!isset($this->countryLanguageManager)) {
+//      $this->initializeServices();
+//    }
 
     $plugin_id = $form_state->getValue('country_language_manager');
     $plugin = $this->countryLanguageManager->createInstance($plugin_id);
@@ -156,16 +156,6 @@ class ConfigForm extends ConfigFormBase {
 
   public static function pluginProcessCallback(array $form, FormStateInterface $form_state) {
     return $form['plugin_configuration'];
-  }
-
-  /**
-   * @todo fix this before version 1.0.0.
-   *
-   * @return void
-   */
-  public function initializeServices() {
-    $this->configFactory = \Drupal::configFactory();
-    $this->countryLanguageManager = \Drupal::service('plugin.manager.country_language_manager');
   }
 
 }
