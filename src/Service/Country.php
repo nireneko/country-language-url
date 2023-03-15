@@ -78,7 +78,6 @@ class Country implements CountryInterface {
   }
 
   /**
-   * @todo: Implement this method, must use the country manager plugins.
    *
    * @param string $countryCode
    *
@@ -101,7 +100,6 @@ class Country implements CountryInterface {
    */
   private function getCountryLanguageManagerPlugin(): object {
     $plugin_id = $this->configFactory->get('country_language_url.config')->get('country_language_manager');
-    /** @var \Drupal\country_language_url\CountryLanguageManagerInterface $plugin */
     return $this->countryLanguageManagerPluginManager->createInstance($plugin_id);
   }
 

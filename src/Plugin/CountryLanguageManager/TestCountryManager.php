@@ -3,8 +3,10 @@
 namespace Drupal\country_language_url\Plugin\CountryLanguageManager;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Locale\CountryManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\country_language_url\CountryLanguageManagerPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
  * )
  */
 class TestCountryManager extends CountryLanguageManagerPluginBase implements ContainerFactoryPluginInterface {
+
+  use StringTranslationTrait;
 
   protected CountryManagerInterface $countryManager;
 
@@ -41,6 +45,16 @@ class TestCountryManager extends CountryLanguageManagerPluginBase implements Con
 
   public function getCurrentCountry(Request $request): string {
     return $this->configFactory->get('system.date')->get('country.default');
+  }
+
+  public function buildForm(FormStateInterface $form_state) {
+
+    $form['text'] = [
+      '#type' => 'textarea',
+      '#title' => $this->t('Text'),
+    ];
+
+    return $form;
   }
 
 

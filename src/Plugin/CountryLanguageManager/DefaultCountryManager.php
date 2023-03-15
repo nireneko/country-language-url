@@ -3,8 +3,10 @@
 namespace Drupal\country_language_url\Plugin\CountryLanguageManager;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Locale\CountryManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\country_language_url\CountryLanguageManagerPluginBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
  * )
  */
 class DefaultCountryManager extends CountryLanguageManagerPluginBase implements ContainerFactoryPluginInterface {
+
+  use StringTranslationTrait;
 
   protected CountryManagerInterface $countryManager;
 
@@ -43,5 +47,18 @@ class DefaultCountryManager extends CountryLanguageManagerPluginBase implements 
     return $this->configFactory->get('system.date')->get('country.default');
   }
 
+  public function buildForm(FormStateInterface $form_state) {
+    $form2['expiration'] = [
+      '#type' => 'date',
+      '#title' => $this->t('Content expiration'),
+      '#default_value' => [
+        'year' => 2020,
+        'month' => 2,
+        'day' => 15,
+      ],
+    ];
+
+    return $form2;
+  }
 
 }

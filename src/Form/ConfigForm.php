@@ -29,6 +29,9 @@ class ConfigForm extends ConfigFormBase {
     $this->countryLanguageManager = $countryLanguageManager;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
@@ -54,6 +57,13 @@ class ConfigForm extends ConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
 
+    /**
+     * @todo fix this!!
+     */
+    if (!isset($this->countryLanguageManager)) {
+      $this->initializeServices();
+    }
+
     $plugins_raw = $this->countryLanguageManager->getDefinitions();
 
     $plugins = [];
@@ -65,31 +75,78 @@ class ConfigForm extends ConfigFormBase {
 
     $plugin_id = $config->get('country_language_manager');
 
+    $userInput = $form_state->getUserInput();
+
+    if (isset($userInput['country_language_manager'])) {
+      $plugin_id = $userInput['country_language_manager'];
+    }
+
     $form['country_language_manager'] = [
       '#type' => 'select',
       '#title' => $this->t('Choose country manager'),
       '#default_value' => $plugin_id,
       '#options' => $plugins,
       '#required' => true,
+      '#ajax' => [
+        'callback' => '::pluginProcessCallback',
+        'event' => 'change',
+        'wrapper' => 'plugin-container-configuration',
+      ],
+    ];
+
+    $form['plugin_configuration'] = [
+      '#type' => 'container',
+      '#attributes' => [
+        'id' => [
+          'plugin_configuration',
+        ],
+      ],
+      '#prefix' => '<div id="plugin-container-configuration">',
+      '#suffix' => '</div>',
     ];
 
     if (!is_null($plugin_id)) {
       $plugin = $this->countryLanguageManager->createInstance($plugin_id);
-      $form = $plugin->buildForm($form, $form_state);
+      $form['plugin_configuration']['custom_configuration'] = $plugin->buildForm($form_state);
     }
 
     return parent::buildForm($form, $form_state);
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function validateForm(array &$form, FormStateInterface $form_state) {
+
+    /**
+     * @todo fix this!!
+     */
+    if (!isset($this->countryLanguageManager)) {
+      $this->initializeServices();
+    }
+
+    $plugin_id = $form_state->getValue('country_language_manager');
+    $plugin = $this->countryLanguageManager->createInstance($plugin_id);
+    $plugin->validateForm($form, $form_state);
     parent::validateForm($form, $form_state);
-//    $plugin->validateForm($form, $form_state);
   }
 
   /**
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+
+    /**
+     * @todo fix this!!
+     */
+    if (!isset($this->countryLanguageManager)) {
+      $this->initializeServices();
+    }
+
+    $plugin_id = $form_state->getValue('country_language_manager');
+    $plugin = $this->countryLanguageManager->createInstance($plugin_id);
+    $form = $plugin->submitForm($form, $form_state);
+
 //    $plugin->submitForm($form, $form_state);
     $this->config('country_langauge_url.config')
       ->set('country_language_manager', $form_state->getValue('country_language_manager'))
@@ -97,6 +154,18 @@ class ConfigForm extends ConfigFormBase {
     $this->messenger()->addStatus($this->t('The configuration has been saved.'));
   }
 
+  public static function pluginProcessCallback(array $form, FormStateInterface $form_state) {
+    return $form['plugin_configuration'];
+  }
 
+  /**
+   * @todo fix this before version 1.0.0.
+   *
+   * @return void
+   */
+  public function initializeServices() {
+    $this->configFactory = \Drupal::configFactory();
+    $this->countryLanguageManager = \Drupal::service('plugin.manager.country_language_manager');
+  }
 
 }
