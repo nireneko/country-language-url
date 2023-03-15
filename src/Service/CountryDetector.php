@@ -49,7 +49,7 @@ class CountryDetector implements CountryDetectorInterface {
    * {@inheritdoc}
    */
   public function isCountryInString(string $string): bool {
-   return preg_match( self::COUNTRY_LANGUAGE_PATTERN, $string);
+   return preg_match(self::COUNTRY_LANGUAGE_PATTERN, $string);
   }
 
   /**

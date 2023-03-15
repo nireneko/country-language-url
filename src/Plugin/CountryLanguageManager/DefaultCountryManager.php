@@ -48,7 +48,7 @@ class DefaultCountryManager extends CountryLanguageManagerPluginBase implements 
   }
 
   public function buildForm(FormStateInterface $form_state) {
-    $form2['expiration'] = [
+    $form['expiration'] = [
       '#type' => 'date',
       '#title' => $this->t('Content expiration'),
       '#default_value' => [
@@ -58,7 +58,7 @@ class DefaultCountryManager extends CountryLanguageManagerPluginBase implements 
       ],
     ];
 
-    return $form2;
+    return $form;
   }
 
 }

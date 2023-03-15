@@ -2,6 +2,7 @@
 
 namespace Drupal\country_language_url\Form;
 
+use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -147,7 +148,6 @@ class ConfigForm extends ConfigFormBase {
     $plugin = $this->countryLanguageManager->createInstance($plugin_id);
     $form = $plugin->submitForm($form, $form_state);
 
-//    $plugin->submitForm($form, $form_state);
     $this->config('country_langauge_url.config')
       ->set('country_language_manager', $form_state->getValue('country_language_manager'))
       ->save();
