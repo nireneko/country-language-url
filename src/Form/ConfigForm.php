@@ -2,7 +2,6 @@
 
 namespace Drupal\country_language_url\Form;
 
-use Drupal\Core\Batch\BatchBuilder;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -15,11 +14,15 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ConfigForm extends ConfigFormBase {
 
   /**
+   * The service plugin.manager.country_language_manager.
+   *
    * @var \Drupal\country_language_url\CountryLanguageManagerPluginManager
    */
   protected CountryLanguageManagerPluginManager $countryLanguageManager;
 
   /**
+   * Constructor of the class.
+   *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The service config.factory.
    * @param \Drupal\country_language_url\CountryLanguageManagerPluginManager $countryLanguageManager
@@ -47,6 +50,9 @@ class ConfigForm extends ConfigFormBase {
     return 'country_language_url_config';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getEditableConfigNames() {
     return [
       'country_langauge_url.config',
@@ -133,7 +139,18 @@ class ConfigForm extends ConfigFormBase {
     $this->messenger()->addStatus($this->t('The configuration has been saved.'));
   }
 
-  public static function pluginProcessCallback(array $form, FormStateInterface $form_state) {
+  /**
+   * Callback for ajax request when plugin is selected.
+   *
+   * @param array $form
+   *   An associative array containing the structure of the form.
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
+   *   The current state of the form.
+   *
+   * @return array
+   *   The form structure.
+   */
+  public static function pluginProcessCallback(array $form, FormStateInterface $form_state): array {
     return $form['plugin_configuration'];
   }
 
