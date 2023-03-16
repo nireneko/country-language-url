@@ -12,6 +12,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * @todo Remove this class before version 1.0.0.
+ *
  * Plugin implementation of the country_language_manager.
  *
  * @CountryLanguageManager(
@@ -19,6 +21,8 @@ use Symfony\Component\HttpFoundation\Request;
  *   label = @Translation("Test country manager."),
  *   description = @Translation("Default country manager to load countries.")
  * )
+ *
+ * @deprecated Remove this class before version 1.0.0.
  */
 class TestCountryManager extends CountryLanguageManagerPluginBase implements ContainerFactoryPluginInterface {
 

@@ -13,20 +13,18 @@ abstract class CountryLanguageManagerPluginBase extends PluginBase implements Co
   /**
    * {@inheritdoc}
    */
-  public function buildForm(FormStateInterface $form_state) {
+  public function buildForm(FormStateInterface $form_state): array {
     return [];
   }
 
   /**
    * {@inheritdoc}
    */
-  public function validateForm(array &$form, FormStateInterface $form_state) {
-    return [];
-  }
+  public function validateForm(array &$form, FormStateInterface $form_state): void {}
 
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {}
+  public function submitForm(array &$form, FormStateInterface $form_state): void {}
 
 }

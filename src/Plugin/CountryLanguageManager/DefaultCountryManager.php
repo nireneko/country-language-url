@@ -61,6 +61,7 @@ class DefaultCountryManager extends CountryLanguageManagerPluginBase implements 
   public function getDefaultCountry(): string {
     return $this->configFactory->get('system.date')->get('country.default');
   }
+
   /**
    * {@inheritDoc}
    */
