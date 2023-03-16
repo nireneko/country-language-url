@@ -2,6 +2,6 @@ country_language_url.config:
   type: config_object
   label: 'Configuration of the module'
   mapping:
-    default_country:
+    country_language_manager:
       type: string
-      label: 'Default country'
+      label: 'Default country language manager plugin.'
