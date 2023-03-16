@@ -98,7 +98,7 @@ class Country implements CountryInterface {
     $country_list = $plugin->getCountryList();
 
     if (!in_array($countryCode, $country_list)) {
-      return true;
+      return false;
     }
     return true;
   }
