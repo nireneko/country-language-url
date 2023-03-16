@@ -45,14 +45,17 @@ class LanguageNegotiationCountryLanguage extends LanguageNegotiationMethodBase i
   protected array $prefixes;
 
   /**
-   * Country Service.
+   * The service country_language_url.country.
    *
    * @var \Drupal\country_language_url\Service\CountryInterface
    */
-  private CountryInterface $countryManager;
+  protected CountryInterface $countryManager;
 
   /**
-   * Constructor.
+   * Constructor of the class.
+   *
+   * @param \Drupal\country_language_url\Service\CountryInterface $countryManager
+   *   The service country_language_url.country.
    */
   public function __construct(CountryInterface $countryManager) {
     $this->countryManager = $countryManager;
@@ -175,7 +178,7 @@ class LanguageNegotiationCountryLanguage extends LanguageNegotiationMethodBase i
    * @return array
    *   Array with prepared prefixes.
    */
-  private function getPrefixes(mixed $request) {
+  private function getPrefixes(mixed $request): array {
 
     $config = $this->config->get('language.negotiation')->get('url');
     if ($request) {
