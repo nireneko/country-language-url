@@ -24,10 +24,23 @@ class DefaultCountryManager extends CountryLanguageManagerPluginBase implements 
 
   use StringTranslationTrait;
 
+  /**
+   * The service country_manager.
+   *
+   * @var \Drupal\Core\Locale\CountryManagerInterface
+   */
   protected CountryManagerInterface $countryManager;
 
+  /**
+   * The service config.factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
   protected ConfigFactoryInterface $configFactory;
 
+  /**
+   * {@inheritDoc}
+   */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     $instance = new static($configuration, $plugin_id, $plugin_definition);
     $instance->countryManager = $container->get('country_manager');
@@ -35,19 +48,31 @@ class DefaultCountryManager extends CountryLanguageManagerPluginBase implements 
     return $instance;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public function getCountryList(): array {
     return $this->countryManager->getList();
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public function getDefaultCountry(): string {
     return $this->configFactory->get('system.date')->get('country.default');
   }
-
+  /**
+   * {@inheritDoc}
+   */
   public function getCurrentCountry(Request $request): string {
     return $this->configFactory->get('system.date')->get('country.default');
   }
 
+  /**
+   * {@inheritDoc}
+   */
   public function buildForm(FormStateInterface $form_state) {
+    // @todo remove this before version 1.0.0.
     $form['expiration'] = [
       '#type' => 'date',
       '#title' => $this->t('Content expiration'),
