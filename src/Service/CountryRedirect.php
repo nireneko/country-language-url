@@ -18,7 +18,7 @@ class CountryRedirect implements CountryRedirectInterface {
    *
    * @return string|void
    */
-  public function addCountryToUrlFromRequest(Request $request) {
+  public function addCountryToUrlFromRequest(Request $request): string {
     // Based con the code of smart_ip_locale_redirect module.
 
     // Get URL info and process it to be used for hash generation.
